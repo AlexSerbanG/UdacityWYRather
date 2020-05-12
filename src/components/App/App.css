@@ -3,11 +3,11 @@
   margin: 0 auto;
 }
 
-.header {
+.title {
   background-color: lightgray;
 }
 
-.header p {
+.title p {
   margin: 0;
   padding: 3px 0;
   font-weight: 500;

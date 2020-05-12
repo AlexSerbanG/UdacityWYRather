@@ -5,7 +5,7 @@ class Logger extends React.Component {
   render() {
     return (
       <div>
-
+        LOGGER
       </div>
     )
   }
