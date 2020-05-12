@@ -1,5 +1,16 @@
-.App {
+.app {
   text-align: center;
+  margin: 0 auto;
+}
+
+.header {
+  background-color: lightgray;
+}
+
+.header p {
+  margin: 0;
+  padding: 3px 0;
+  font-weight: 500;
 }
 
 .App-logo {
