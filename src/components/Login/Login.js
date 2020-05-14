@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actions } from '../../redux/auth.redux';
-import { Redirect } from 'react-router-dom';
 
 class Login extends React.Component {
   state = {
     value: '',
+    error: null,
   }
 
   handleChange = (e) => {
@@ -17,15 +17,18 @@ class Login extends React.Component {
 
   handleSubmit = () => {
     const { value } = this.state;
-    this.props.actions.signIn(value);
+    const { actions, onSuccess, history } = this.props;
+    actions.signIn(value)
+      .then(onSuccess)
+      .then(() => history.push(history.location.state.from))
+      .catch(e => this.setState({
+        error: e
+      }));
   }
 
   render() {
-    const { value } = this.state;
-    const { users, location, isAuthenticated } = this.props;
-    if (isAuthenticated) {
-      return <Redirect to={location.state.from} />
-    }
+    const { value, error } = this.state;
+    const { users } = this.props;
     return (
       <div>
         <select value={value} onChange={this.handleChange}>
@@ -35,6 +38,9 @@ class Login extends React.Component {
         <div>
           <button onClick={this.handleSubmit}>Sign in</button>
         </div>
+        <div>
+          {error !== null && <p>Something went wrong. Please try again</p>}
+        </div>
       </div>
     )
   }
@@ -42,7 +48,6 @@ class Login extends React.Component {
 
 const mapStateToProps = ({ users, auth }) => ({
   users: users.allIds.map(id => users.byId[id]),
-  isAuthenticated: auth.authedUser !== null,
 });
 
 const mapDispatchToProps = (dispatch) => ({

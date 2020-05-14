@@ -14,13 +14,15 @@ const actionCreators = {
 };
 
 export const actions = {
-  signIn: (userId) => (dispatch, getState) => {
+  signIn: (userId) => (dispatch, getState) => new Promise((res, rej) => {
     const { users: { allIds } } = getState();
     const user = allIds.find(id => id === userId);
     if (user) {
       dispatch(actionCreators.signIn(userId));
+      res();
     }
-  },
+    rej();
+  }),
   signOut: () => (dispatch, getState) => {
     dispatch(actionCreators.signOut());
   },
