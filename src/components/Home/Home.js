@@ -1,18 +1,20 @@
 import React from 'react';
 import { Tabs } from '../Tabs';
+import { QuestionsList } from '../QuestionsList';
+
+const QuestionTypes = {
+  Answered: "Answered",
+  Unanswered: "Unanswered",
+};
 
 const tabs = [{
   label: 'Unanswered questions',
-  content: () => <div>UNA Questions</div>,
+  content: () => <QuestionsList type={QuestionTypes.Answered} />
 },
 {
   label: 'Answered questions',
-  content: () => <div>ANS Questions</div>,
-},
-{
-  label: 'Test questions',
-  content: () => <div>TEST Questions</div>,
-}]
+  content: () => <QuestionsList type={QuestionTypes.Unanswered} />
+}];
 
 class Home extends React.Component {
   render() {

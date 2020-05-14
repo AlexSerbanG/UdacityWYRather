@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actions as usersActions } from '../../redux/users.redux';
 import { actions as questionsActions } from '../../redux/questions.redux';
-import './App.css';
+import styles from './App.module.css';
 
 class App extends React.Component {
   componentDidMount() {
@@ -20,12 +20,12 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <div className="app">
-          <div className="title">
+        <div className={styles.app}>
+          <div className={styles.title}>
             <p>React App</p>
           </div>
           <Header />
-          <div className="content">
+          <div className={styles.content}>
             <PrivateRoute path="/" exact component={Home} />
             <PrivateRoute path="/new" component={NewQuestion} />
             <PrivateRoute path="/leaderboard" component={Leaderboard} />

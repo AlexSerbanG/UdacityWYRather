@@ -1,5 +1,5 @@
 import React from 'react';
-import './Tabs.css';
+import styles from './Tabs.module.css';
 
 class Tabs extends React.Component {
   state = {
@@ -17,14 +17,14 @@ class Tabs extends React.Component {
     const { tabs } = this.props;
     const { content: Component } = tabs[activeTabIndex];
     return (
-      <div className="tabsContainer">
-        <div className="tabs">
+      <div className={styles.tabsContainer}>
+        <div className={styles.tabs}>
           {tabs.map((tab, index) => (
-            <div key={tab.label} className={`tab${activeTabIndex === index ? ' active' : ''}`} onClick={() => this.setActive(index)}>{tab.label}</div>
+            <div key={tab.label} className={`${styles.tab} ${activeTabIndex === index ? styles.active : null}`} onClick={() => this.setActive(index)}>{tab.label}</div>
           ))}
         </div>
-        <div className="tabContent">
-          <Component />
+        <div className={styles.tabContent}>
+          {Component()}
         </div>
       </div>
     )
