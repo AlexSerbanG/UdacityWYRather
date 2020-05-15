@@ -18,11 +18,11 @@ class Poll extends React.Component {
         <h2>Would You Rather ...</h2>
       </div>
       <div className={styles.options}>
-        {options.map((option, index) => (
-          <div key={index} className={styles.option}>
-            <input type="radio" id={`option${index}`} name="poll" value={option.value}
-              checked={value === option.value} onChange={this.onChange} />
-            <label htmlFor={`option${index}`}>{option.label}</label>
+        {options.map(({ id, label }) => (
+          <div key={id} className={styles.option}>
+            <input type="radio" id={id} name="poll" value={id}
+              checked={value === label} onChange={this.onChange} />
+            <label htmlFor={id}>{label}</label>
           </div>
         ))}
       </div>
