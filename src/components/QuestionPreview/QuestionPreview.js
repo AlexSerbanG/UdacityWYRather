@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styles from './QuestionPreview.module.css';
+import Avatar from '../_common/Avatar/Avatar';
 
 class QuestionPreview extends React.Component {
   render() {
@@ -12,21 +13,18 @@ class QuestionPreview extends React.Component {
       </div>
       <div className={styles.content}>
         <div className={styles.avatar}>
-          <img
-            height={120}
-            width={120}
-            src={require(`../../assets/images/${author.avatarURL}.png`)}
-            alt="user avatar"
-          />
+          <Avatar avatarUrl={author.avatarURL} />
         </div>
         <div className={styles.details}>
           <h3>Would you rather</h3>
-          <div className={styles.option}>
+          <p className={styles.option}>
             ...{optionOne.text}...
-          </div>
-          <div className={styles.viewPoll}>
-            <Link to={`/questions/${id}`}>View Poll</Link>
-          </div>
+          </p>
+          <Link to={`/questions/${id}`} className={styles.viewPoll}>
+            <div>
+              View Poll
+            </div>
+          </Link>
         </div>
       </div>
     </div>)
@@ -38,7 +36,7 @@ const mapStateToProps = (state, ownProps) => {
   const author = state.users.byId[question.author];
   return {
     ...question,
-    author: author,
+    author,
   };
 }
 

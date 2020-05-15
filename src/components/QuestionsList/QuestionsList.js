@@ -14,7 +14,7 @@ class QuestionsList extends React.Component {
 const mapStateToProps = ({ questions, users, auth }, ownProps) => {
   const userAnsweredQuestions = Object.keys(users.byId[auth.authedUser].answers);
   return {
-    questions: questions.allIds.filter(question => !(userAnsweredQuestions.includes(question) ^ ownProps.type === 'Answered'))
+    questions: questions.allIds.filter(question => (userAnsweredQuestions.includes(question) ^ ownProps.type === 'Answered'))
   }
 }
 

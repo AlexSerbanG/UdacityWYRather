@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actions as usersActions } from '../../redux/users.redux';
 import { actions as questionsActions } from '../../redux/questions.redux';
+import { Question } from '../Question/';
 import styles from './App.module.css';
 
 class App extends React.Component {
@@ -29,7 +30,14 @@ class App extends React.Component {
             <PrivateRoute path="/" exact component={Home} />
             <PrivateRoute path="/new" component={NewQuestion} />
             <PrivateRoute path="/leaderboard" component={Leaderboard} />
-            <Route path='/login' component={({ history }) => <Login history={history} onSuccess={this.props.actions.getQuestions} />} />
+            <PrivateRoute path="/questions/:id" component={Question} />
+            <Route path='/login'
+              component={({ history }) =>
+                <Login
+                  history={history}
+                  onSuccess={this.props.actions.getQuestions}
+                />}
+            />
           </div>
         </div>
       </BrowserRouter>

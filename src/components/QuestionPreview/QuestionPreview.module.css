@@ -40,6 +40,8 @@
 .option {
   width: 50%;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .viewPoll {
@@ -49,9 +51,6 @@
   text-align: center;
   padding: 8px;
   cursor: pointer;
-}
-
-.viewPoll a {
   text-decoration: none;
   color: #3bb9a8;
   font-weight: 500;
