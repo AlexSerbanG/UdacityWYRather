@@ -1,7 +1,14 @@
 import React from 'react';
 import styles from './Tabs.module.css';
+import { withRouter } from 'react-router-dom';
 
 class Tabs extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTabIndex: props.location.state ? props.location.state.hash : 0
+    }
+  }
   state = {
     activeTabIndex: 0,
   };
@@ -9,7 +16,12 @@ class Tabs extends React.Component {
   setActive = (index) => {
     this.setState({
       activeTabIndex: index
-    });
+    }, () => this.props.history.replace(
+      this.props.history.location.pathname,
+      {
+        hash: index,
+      }
+    ));
   }
 
   render() {
@@ -31,4 +43,4 @@ class Tabs extends React.Component {
   }
 }
 
-export default Tabs;
+export default withRouter(Tabs);
