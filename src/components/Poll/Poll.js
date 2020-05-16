@@ -10,6 +10,13 @@ class Poll extends React.Component {
     this.setState({ value: e.target.value });
   }
 
+  onSubmit = () => {
+    const { value } = this.state;
+    if (value) {
+      this.props.handleSubmit(value);
+    }
+  }
+
   render() {
     const { value } = this.state;
     const { options } = this.props;
@@ -21,12 +28,15 @@ class Poll extends React.Component {
         {options.map(({ id, label }) => (
           <div key={id} className={styles.option}>
             <input type="radio" id={id} name="poll" value={id}
-              checked={value === label} onChange={this.onChange} />
+              checked={value === id} onChange={this.onChange} />
             <label htmlFor={id}>{label}</label>
           </div>
         ))}
       </div>
-      <div className={`${styles.submit} ${value === '' ? styles.disabled : null}`}>
+      <div
+        onClick={this.onSubmit}
+        className={`${styles.submit} ${value === '' ? styles.disabled : null}`}
+      >
         Submit
       </div>
     </div>)

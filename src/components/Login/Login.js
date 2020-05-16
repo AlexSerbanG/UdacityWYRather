@@ -46,7 +46,7 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = ({ users, auth }) => ({
+const mapStateToProps = ({ users }) => ({
   users: users.allIds.map(id => users.byId[id]),
 });
 

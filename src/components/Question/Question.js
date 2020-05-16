@@ -5,10 +5,12 @@ import styles from './Question.module.css';
 import Avatar from '../_common/Avatar/Avatar';
 import { Poll } from '../Poll';
 import { Result } from '../Result';
+import { bindActionCreators } from 'redux';
+import { actions } from '../../redux/questions.redux';
 
 class Question extends React.Component {
   render() {
-    const { author, ownAnswer, hasAnswered, options } = this.props;
+    const { author, ownAnswer, hasAnswered, options, actions: { answerQuestion } } = this.props;
     return (<div className={styles.question}>
       <div>
         <h4 className={styles.title}>{author.name} asks:</h4>
@@ -17,7 +19,7 @@ class Question extends React.Component {
         <div className={styles.avatar}>
           <Avatar avatarUrl={author.avatarURL} width={160} height={160} />
         </div>
-        {!hasAnswered && <Poll options={options} />}
+        {!hasAnswered && <Poll options={options} handleSubmit={answerQuestion} />}
         {hasAnswered && <Result options={options} answer={ownAnswer} />}
 
       </div>
@@ -46,4 +48,10 @@ const mapStateToProps = (state, ownProps) => {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(Question));
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  actions: bindActionCreators({
+    answerQuestion: (answer) => actions.answerQuestion(ownProps.match.params.id, answer)
+  }, dispatch)
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Question));

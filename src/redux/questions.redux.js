@@ -1,7 +1,8 @@
-import { _getQuestions } from "../api/_DATA";
+import { _getQuestions, _saveQuestionAnswer } from "../api/_DATA";
 
-const actionTypes = {
+export const actionTypes = {
   GET_QUESTIONS: 'GET_QUESTIONS',
+  ANSWER_QUESTION: 'ANSWER_QUESTION',
 };
 
 const actionCreators = {
@@ -9,6 +10,12 @@ const actionCreators = {
     type: actionTypes.GET_QUESTIONS,
     questions,
   }),
+  answerQuestion: (questionId, user, answer) => ({
+    type: actionTypes.ANSWER_QUESTION,
+    questionId,
+    user,
+    answer,
+  })
 };
 
 export const actions = {
@@ -18,6 +25,14 @@ export const actions = {
       res();
     })
   }),
+  answerQuestion: (questionId, answer) => (dispatch, getState) => {
+    const { auth: { authedUser } } = getState();
+    _saveQuestionAnswer({
+      authedUser,
+      qid: questionId,
+      answer,
+    }).then(() => dispatch(actionCreators.answerQuestion(questionId, authedUser, answer)));
+  }
 };
 
 const reducer = (state = { byId: {}, allIds: [] }, action) => {
@@ -27,6 +42,21 @@ const reducer = (state = { byId: {}, allIds: [] }, action) => {
         ...state,
         byId: { ...action.questions },
         allIds: Object.keys(action.questions),
+      };
+    case (actionTypes.ANSWER_QUESTION):
+      const question = state.byId[action.questionId];
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.questionId]: {
+            ...question,
+            [action.answer]: {
+              ...question[action.answer],
+              votes: question[action.answer].votes.concat([action.user])
+            }
+          }
+        }
       };
     default:
       return state;
