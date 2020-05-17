@@ -8,8 +8,10 @@ import { Leaderboard } from '../Leaderboard';
 import { Login } from '../Login';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { actions } from '../../redux/users.redux';
-import './App.css';
+import { actions as usersActions } from '../../redux/users.redux';
+import { actions as questionsActions } from '../../redux/questions.redux';
+import { Question } from '../Question/';
+import styles from './App.module.css';
 
 class App extends React.Component {
   componentDidMount() {
@@ -19,15 +21,24 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <div className="app">
-          <div className="title">
+        <div className={styles.app}>
+          <div className={styles.title}>
             <p>React App</p>
           </div>
           <Header />
-          <PrivateRoute path="/" exact component={Home} />
-          <PrivateRoute path="/new" component={NewQuestion} />
-          <PrivateRoute path="/leaderboard" component={Leaderboard} />
-          <Route path='/login' component={Login} />
+          <div className={styles.content}>
+            <PrivateRoute path="/" exact component={Home} />
+            <PrivateRoute path="/new" component={NewQuestion} />
+            <PrivateRoute path="/leaderboard" component={Leaderboard} />
+            <PrivateRoute path="/questions/:id" component={Question} />
+            <Route path='/login'
+              component={({ history }) =>
+                <Login
+                  history={history}
+                  onSuccess={this.props.actions.getQuestions}
+                />}
+            />
+          </div>
         </div>
       </BrowserRouter>
 
@@ -36,7 +47,10 @@ class App extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators({
+    ...usersActions,
+    ...questionsActions,
+  }, dispatch)
 });
 
 export default connect(null, mapDispatchToProps)(App);

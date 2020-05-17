@@ -1,10 +1,11 @@
 import { _getUsers } from "../api/_DATA";
+import { actionTypes as questionsActionTypes } from './questions.redux';
 
 const actionTypes = {
   GET_USERS: 'GET_USERS',
 };
 
-const actionCreators = {
+export const actionCreators = {
   getUsers: (users) => ({
     type: actionTypes.GET_USERS,
     users,
@@ -26,6 +27,33 @@ const reducer = (state = { byId: {}, allIds: [] }, action) => {
         ...state,
         byId: { ...action.users },
         allIds: Object.keys(action.users),
+      };
+    case (questionsActionTypes.ANSWER_QUESTION):
+      const user = state.byId[action.user];
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [user.id]: {
+            ...user,
+            answers: {
+              ...user.answers,
+              [action.questionId]: action.answer,
+            }
+          }
+        }
+      };
+    case (questionsActionTypes.ASK_QUESTION):
+      const author = state.byId[action.question.author];
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [author.id]: {
+            ...state.byId[author.id],
+            questions: [...author.questions, action.question.id]
+          }
+        }
       };
     default:
       return state;

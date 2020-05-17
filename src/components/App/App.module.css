@@ -4,13 +4,19 @@
 }
 
 .title {
-  background-color: lightgray;
+  background-color: #cfcecf;
 }
 
 .title p {
   margin: 0;
   padding: 3px 0;
   font-weight: 500;
+}
+
+.content {
+  padding-top: 20px;
+  width: 700px;
+  margin: 0 auto;
 }
 
 .App-logo {
