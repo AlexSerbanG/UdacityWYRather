@@ -1,11 +1,12 @@
 import React from 'react';
 import { Score } from '../Score';
 import { connect } from 'react-redux';
+import styles from './Leaderboard.module.css';
 
 class Leaderboard extends React.Component {
   render() {
-    const { leaderboard = [] } = this.props;
-    return <div>
+    const { leaderboard } = this.props;
+    return <div className={styles.leaderboard}>
       {leaderboard.map((user) => <Score key={user.id} {...user} />)}
     </div>
   }
@@ -23,6 +24,10 @@ const mapStateToProps = ({ users }) => {
       };
     })
       .sort((a, b) => b.score - a.score)
+      .map((user, index) => ({
+        ...user,
+        rank: index + 1
+      }))
   }
 }
 

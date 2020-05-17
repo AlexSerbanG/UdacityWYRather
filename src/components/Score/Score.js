@@ -1,6 +1,9 @@
 import React from 'react';
 import { Avatar } from '../_common/Avatar';
 import styles from './Score.module.css';
+import { ordinal_suffix_of } from '../../utils';
+
+const rankClass = ["gold", "silver", "bronze", "unranked"];
 
 const Score = (user) => (
   <div className={styles.score}>
@@ -23,9 +26,8 @@ const Score = (user) => (
         </div>
       </div>
     </div>
-    <div className={styles.cup}>
-
-    </div>
+    <div className={`${styles.cup} ${styles[rankClass[user.rank - 1]]}`}></div>
+    <div className={styles.rank}> {ordinal_suffix_of(user.rank)}</div>
   </div>
 )
 
