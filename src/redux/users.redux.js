@@ -43,6 +43,18 @@ const reducer = (state = { byId: {}, allIds: [] }, action) => {
           }
         }
       };
+    case (questionsActionTypes.ASK_QUESTION):
+      const author = state.byId[action.question.author];
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [author.id]: {
+            ...state.byId[author.id],
+            questions: [...author.questions, action.question.id]
+          }
+        }
+      };
     default:
       return state;
   }

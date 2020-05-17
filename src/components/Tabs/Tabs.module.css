@@ -1,19 +1,10 @@
 .tabsContainer {
   border: 1px solid #f1f0f1;
+  border-radius: 4px;
 }
 
 .tabs {
   display: flex;
-}
-
-.tabs div {
-  flex-grow: 1;
-  border: 1px solid #f1f0f1;
-  cursor: pointer;
-}
-
-.tabs div:hover {
-  background-color: #f9f8f9;
 }
 
 .active {
@@ -24,6 +15,20 @@
 .tab {
   padding: 8px;
   font-weight: 500;
+  flex-grow: 1;
+  border: 1px solid #f1f0f1;
+  cursor: pointer;
+}
+
+.tab:first-child {
+  border-radius: 4px 0 0 0px;
+}
+.tab:last-child {
+  border-radius: 0px 4px 0 0;
+}
+
+.tab:hover {
+  background-color: #f9f8f9;
 }
 
 .tabContent {

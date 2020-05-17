@@ -1,8 +1,9 @@
-import { _getQuestions, _saveQuestionAnswer } from "../api/_DATA";
+import { _getQuestions, _saveQuestionAnswer, _saveQuestion } from "../api/_DATA";
 
 export const actionTypes = {
   GET_QUESTIONS: 'GET_QUESTIONS',
   ANSWER_QUESTION: 'ANSWER_QUESTION',
+  ASK_QUESTION: 'ASK_QUESTION',
 };
 
 const actionCreators = {
@@ -15,7 +16,11 @@ const actionCreators = {
     questionId,
     user,
     answer,
-  })
+  }),
+  askQuestion: (question) => ({
+    type: actionTypes.ASK_QUESTION,
+    question,
+  }),
 };
 
 export const actions = {
@@ -32,7 +37,17 @@ export const actions = {
       qid: questionId,
       answer,
     }).then(() => dispatch(actionCreators.answerQuestion(questionId, authedUser, answer)));
-  }
+  },
+  askQuestion: ({ optionOne, optionTwo }) => (dispatch, getState) => new Promise((res, rej) => {
+    _saveQuestion({
+      author: getState().auth.authedUser,
+      optionOneText: optionOne,
+      optionTwoText: optionTwo,
+    }).then(result => {
+      dispatch(actionCreators.askQuestion(result));
+      res();
+    }).catch(e => rej(e));
+  })
 };
 
 const reducer = (state = { byId: {}, allIds: [] }, action) => {
@@ -56,6 +71,14 @@ const reducer = (state = { byId: {}, allIds: [] }, action) => {
               votes: question[action.answer].votes.concat([action.user])
             }
           }
+        }
+      };
+    case (actionTypes.ASK_QUESTION):
+      return {
+        allIds: [...state.allIds, action.question.id],
+        byId: {
+          ...state.byId,
+          [action.question.id]: action.question,
         }
       };
     default:
