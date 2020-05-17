@@ -1,4 +1,5 @@
 import { _getQuestions, _saveQuestionAnswer, _saveQuestion } from "../api/_DATA";
+import { showLoading, hideLoading } from 'react-redux-loading';
 
 export const actionTypes = {
   GET_QUESTIONS: 'GET_QUESTIONS',
@@ -25,26 +26,35 @@ const actionCreators = {
 
 export const actions = {
   getQuestions: () => (dispatch) => new Promise((res) => {
+    dispatch(showLoading());
     _getQuestions().then(result => {
       dispatch(actionCreators.getQuestions(result));
+      dispatch(hideLoading());
       res();
     })
   }),
   answerQuestion: (questionId, answer) => (dispatch, getState) => {
     const { auth: { authedUser } } = getState();
+    dispatch(showLoading());
     _saveQuestionAnswer({
       authedUser,
       qid: questionId,
       answer,
-    }).then(() => dispatch(actionCreators.answerQuestion(questionId, authedUser, answer)));
+    }).then(() => {
+      dispatch(actionCreators.answerQuestion(questionId, authedUser, answer));
+      dispatch(hideLoading());
+
+    });
   },
   askQuestion: ({ optionOne, optionTwo }) => (dispatch, getState) => new Promise((res, rej) => {
+    dispatch(showLoading());
     _saveQuestion({
       author: getState().auth.authedUser,
       optionOneText: optionOne,
       optionTwoText: optionTwo,
     }).then(result => {
       dispatch(actionCreators.askQuestion(result));
+      dispatch(hideLoading());
       res();
     }).catch(e => rej(e));
   })
