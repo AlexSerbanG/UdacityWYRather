@@ -8,24 +8,23 @@ import { Result } from '../Result';
 import { bindActionCreators } from 'redux';
 import { actions } from '../../redux/questions.redux';
 
-class Question extends React.Component {
-  render() {
-    const { author, ownAnswer, hasAnswered, options, actions: { answerQuestion } } = this.props;
-    return (<div className={styles.question}>
-      <div>
-        <h4 className={styles.title}>{author.name} asks:</h4>
+const Question = (props) => {
+  const { author, ownAnswer, hasAnswered, options, actions: { answerQuestion } } = props;
+  return (<div className={styles.question}>
+    <div>
+      <h4 className={styles.title}>{author.name} asks:</h4>
+    </div>
+    <div className={styles.content}>
+      <div className={styles.avatar}>
+        <Avatar avatarUrl={author.avatarURL} width={160} height={160} />
       </div>
-      <div className={styles.content}>
-        <div className={styles.avatar}>
-          <Avatar avatarUrl={author.avatarURL} width={160} height={160} />
-        </div>
-        {!hasAnswered && <Poll options={options} handleSubmit={answerQuestion} />}
-        {hasAnswered && <Result options={options} answer={ownAnswer} />}
+      {!hasAnswered && <Poll options={options} handleSubmit={answerQuestion} />}
+      {hasAnswered && <Result options={options} answer={ownAnswer} />}
 
-      </div>
-    </div>)
-  }
-}
+    </div>
+  </div>)
+};
+
 
 const mapStateToProps = (state, ownProps) => {
   const question = state.questions.byId[ownProps.match.params.id];

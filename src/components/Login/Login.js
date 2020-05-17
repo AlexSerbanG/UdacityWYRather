@@ -39,7 +39,7 @@ class Login extends React.Component {
           <p>Please sign in to continue</p>
         </div>
         <div className={styles.logo}>
-          <img src={require(`../../assets/images/react-redux.png`)} width={120} height={120} />
+          <img src={require(`../../assets/images/react-redux.png`)} width={120} height={120} alt="React Redux logo" />
         </div>
         <div className={styles.selectUser}>
           <h3 >Sign in</h3>

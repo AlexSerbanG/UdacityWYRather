@@ -12,3 +12,8 @@ export const ordinal_suffix_of = (i) => {
   }
   return i + "th";
 }
+
+export const QuestionTypes = {
+  Answered: "Answered",
+  Unanswered: "Unanswered",
+};

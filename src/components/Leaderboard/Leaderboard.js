@@ -3,14 +3,11 @@ import { Score } from '../Score';
 import { connect } from 'react-redux';
 import styles from './Leaderboard.module.css';
 
-class Leaderboard extends React.Component {
-  render() {
-    const { leaderboard } = this.props;
-    return <div className={styles.leaderboard}>
-      {leaderboard.map((user) => <Score key={user.id} {...user} />)}
-    </div>
-  }
-}
+const Leaderboard = ({ leaderboard }) => (
+  <div className={styles.leaderboard} >
+    {leaderboard.map((user) => <Score key={user.id} {...user} />)}
+  </div >
+);
 
 const mapStateToProps = ({ users }) => {
   return {

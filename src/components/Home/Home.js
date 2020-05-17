@@ -1,11 +1,7 @@
 import React from 'react';
 import { Tabs } from '../Tabs';
 import { QuestionsList } from '../QuestionsList';
-
-const QuestionTypes = {
-  Answered: "Answered",
-  Unanswered: "Unanswered",
-};
+import { QuestionTypes } from '../../utils';
 
 const tabs = [{
   label: 'Unanswered questions',
@@ -16,12 +12,10 @@ const tabs = [{
   content: () => <QuestionsList type={QuestionTypes.Unanswered} />
 }];
 
-class Home extends React.Component {
-  render() {
-    return <div>
-      <Tabs tabs={tabs} />
-    </div>
-  }
-}
+const Home = () => (
+  <div>
+    <Tabs tabs={tabs} />
+  </div>
+);
 
 export default Home;

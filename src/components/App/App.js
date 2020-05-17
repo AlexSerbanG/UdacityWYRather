@@ -30,7 +30,7 @@ class App extends React.Component {
           <Header />
           <div className={styles.content}>
             <PrivateRoute path="/" exact component={Home} />
-            <PrivateRoute path="/new" component={NewQuestion} />
+            <PrivateRoute path="/add" component={NewQuestion} />
             <PrivateRoute path="/leaderboard" component={Leaderboard} />
             <PrivateRoute path="/questions/:id" component={Question} />
             <Route path='/login'
