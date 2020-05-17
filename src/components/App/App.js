@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { actions as usersActions } from '../../redux/users.redux';
 import { actions as questionsActions } from '../../redux/questions.redux';
 import { Question } from '../Question/';
+import LoadingBar from 'react-redux-loading';
 import styles from './App.module.css';
 
 class App extends React.Component {
@@ -25,6 +26,7 @@ class App extends React.Component {
           <div className={styles.title}>
             <p>React App</p>
           </div>
+          <LoadingBar />
           <Header />
           <div className={styles.content}>
             <PrivateRoute path="/" exact component={Home} />

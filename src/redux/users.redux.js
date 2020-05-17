@@ -1,5 +1,6 @@
 import { _getUsers } from "../api/_DATA";
 import { actionTypes as questionsActionTypes } from './questions.redux';
+import { showLoading, hideLoading } from 'react-redux-loading';
 
 const actionTypes = {
   GET_USERS: 'GET_USERS',
@@ -14,8 +15,10 @@ export const actionCreators = {
 
 export const actions = {
   getUsers: () => (dispatch) => {
+    dispatch(showLoading());
     _getUsers().then(result => {
       dispatch(actionCreators.getUsers(result));
+      dispatch(hideLoading());
     });
   }
 };
