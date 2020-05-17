@@ -44,7 +44,7 @@ class Login extends React.Component {
         <div className={styles.selectUser}>
           <h3 >Sign in</h3>
           <select value={value} onChange={this.handleChange}>
-            <option value="" disabled>Select an user</option>
+            <option value="" disabled>Select user</option>
             {users.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
           </select>
           <div className={`${styles.submit} ${value === '' ? styles.disabled : null}`} onClick={this.handleSubmit}>
