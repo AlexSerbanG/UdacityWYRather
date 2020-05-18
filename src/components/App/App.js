@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from '../_common/PrivateRoute';
 import { Home } from '../Home';
 import { Header } from '../Header';
@@ -10,7 +10,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actions as usersActions } from '../../redux/users.redux';
 import { actions as questionsActions } from '../../redux/questions.redux';
-import { Question } from '../Question/';
+import { Question } from '../Question';
+import { PageNotFound } from '../PageNotFound';
 import LoadingBar from 'react-redux-loading';
 import styles from './App.module.css';
 
@@ -29,17 +30,21 @@ class App extends React.Component {
           <LoadingBar />
           <Header />
           <div className={styles.content}>
-            <PrivateRoute path="/" exact component={Home} />
-            <PrivateRoute path="/add" component={NewQuestion} />
-            <PrivateRoute path="/leaderboard" component={Leaderboard} />
-            <PrivateRoute path="/questions/:id" component={Question} />
-            <Route path='/login'
-              component={({ history }) =>
-                <Login
-                  history={history}
-                  onSuccess={this.props.actions.getQuestions}
-                />}
-            />
+            <Switch>
+
+              <PrivateRoute path="/" exact component={Home} />
+              <PrivateRoute path="/add" component={NewQuestion} />
+              <PrivateRoute path="/leaderboard" component={Leaderboard} />
+              <PrivateRoute path="/questions/:id" component={Question} />
+              <Route path='/login'
+                component={({ history }) =>
+                  <Login
+                    history={history}
+                    onSuccess={this.props.actions.getQuestions}
+                  />}
+              />
+              <PrivateRoute component={PageNotFound} />
+            </Switch>
           </div>
         </div>
       </BrowserRouter>

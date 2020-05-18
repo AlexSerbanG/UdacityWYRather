@@ -12,7 +12,7 @@ const mapStateToProps = ({ questions, users, auth }, ownProps) => {
   const userAnsweredQuestions = Object.keys(users.byId[auth.authedUser].answers);
   return {
     questions: questions.allIds.filter(question => (userAnsweredQuestions.includes(question) ^ ownProps.type === 'Answered'))
-      .sort((a, b) => a.timestamp - b.timestamp)
+      .sort((a, b) => b.timestamp - a.timestamp)
   }
 }
 

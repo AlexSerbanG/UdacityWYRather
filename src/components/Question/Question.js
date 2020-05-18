@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styles from './Question.module.css';
 import Avatar from '../_common/Avatar/Avatar';
@@ -9,7 +9,10 @@ import { bindActionCreators } from 'redux';
 import { actions } from '../../redux/questions.redux';
 
 const Question = (props) => {
-  const { author, ownAnswer, hasAnswered, options, actions: { answerQuestion } } = props;
+  const { isExistingQuestion, author, ownAnswer, hasAnswered, options, actions: { answerQuestion } } = props;
+  if (!isExistingQuestion) {
+    return <Redirect to='/pageNotFound' />
+  }
   return (<div className={styles.question}>
     <div>
       <h4 className={styles.title}>{author.name} asks:</h4>
@@ -28,6 +31,11 @@ const Question = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   const question = state.questions.byId[ownProps.match.params.id];
+  if (!question) {
+    return {
+      isExistingQuestion: false,
+    }
+  }
   const author = state.users.byId[question.author];
   const ownAnswer = state.users.byId[state.auth.authedUser].answers[ownProps.match.params.id];
   const hasAnswered = ownAnswer !== undefined;
@@ -44,6 +52,7 @@ const mapStateToProps = (state, ownProps) => {
     hasAnswered,
     ownAnswer,
     options,
+    isExistingQuestion: true
   };
 }
 
